@@ -80,61 +80,12 @@ local MiscSection = MiscTab:CreateSection("Misc")
 
 local Slider = MiscTab:CreateSlider({
    Name = "Walkspeed",
-   Range = {0, 100},
-   Increment = 10,
-   Suffix = "nil",
+   Range = {0, 300},
+   Increment = 1,
+   Suffix = "",
    CurrentValue = 10,
    Flag = "Slider1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
    Callback = function(Value)
-local player = game.Players.LocalPlayer
-local mouse = player:GetMouse()
-
-local frame = script.Parent
-local handle = frame:WaitForChild("Handle") -- Your draggable part
-local bar = frame:WaitForChild("Bar")       -- Slider background
-local label = frame:WaitForChild("SpeedLabel") -- TextLabel to show value
-
-local minSpeed = 16
-local maxSpeed = 100
-local dragging = false
-
--- Update WalkSpeed
-local function updateSpeed(xPos)
-	local relativeX = math.clamp(xPos - bar.AbsolutePosition.X, 0, bar.AbsoluteSize.X)
-	local percent = relativeX / bar.AbsoluteSize.X
-	local speed = math.floor(minSpeed + (maxSpeed - minSpeed) * percent)
-
-	handle.Position = UDim2.new(0, relativeX, 0.5, -handle.AbsoluteSize.Y / 2)
-	label.Text = "Speed: " .. speed
-
-	local character = player.Character or player.CharacterAdded:Wait()
-	local humanoid = character:FindFirstChildOfClass("Humanoid")
-	if humanoid then
-		humanoid.WalkSpeed = speed
-	end
-end
-
--- Start dragging
-handle.InputBegan:Connect(function(input)
-	if input.UserInputType == Enum.UserInputType.MouseButton1 then
-		dragging = true
-	end
-end)
-
--- Stop dragging
-game:GetService("UserInputService").InputEnded:Connect(function(input)
-	if input.UserInputType == Enum.UserInputType.MouseButton1 then
-		dragging = false
-	end
-end)
-
--- While dragging
-game:GetService("RunService").RenderStepped:Connect(function()
-	if dragging then
-		updateSpeed(mouse.X)
-	end
-end)
-   -- The function that takes place when the slider changes
-   -- The variable (Value) is a number which correlates to the value the slider is currently at
+     game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = (value)
    end,
 })
