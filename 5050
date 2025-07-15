@@ -88,7 +88,7 @@ local RunService = game:GetService("RunService")
 local player = Players.LocalPlayer
 local character = player.Character or player.CharacterAdded:Wait()
 local button = script.Parent
-local noclip = false
+local noclip = true
 
 -- Noclip toggle function
 local function toggleNoclip()
