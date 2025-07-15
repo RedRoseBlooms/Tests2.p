@@ -78,3 +78,36 @@ local Button = MainTab:CreateButton({
 local MiscTab = Window:CreateTab("🔧 Misc", nil) -- Title, Image
 local MiscSection = MiscTab:CreateSection("Misc")
 
+local Button = MiscTab:CreateButton({
+   Name = "Noclip",
+   Callback = function()
+   -- LocalScript inside the NoclipButton
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+
+local player = Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local button = script.Parent
+local noclip = false
+
+-- Noclip toggle function
+local function toggleNoclip()
+	noclip = not noclip
+	button.Text = noclip and "Noclip: ON" or "Noclip: OFF"
+end
+
+-- RunService loop for noclip
+RunService.Stepped:Connect(function()
+	if noclip and player.Character then
+		for _, part in pairs(player.Character:GetDescendants()) do
+			if part:IsA("BasePart") then
+				part.CanCollide = false
+			end
+		end
+	end
+end)
+
+-- Button click connects to toggle
+button.MouseButton1Click:Connect(toggleNoclip)
+   end,
+})
